@@ -241,9 +241,9 @@ def gerar_pdf(dados: dict, numero_orcamento: str = None, logo_path: str = None) 
     story.append(Paragraph("OBSERVAÇÃO", st["label_secao"]))
     story.append(HRFlowable(width=W, thickness=1, color=AZUL_LABEL, spaceAfter=4))
 
-    obs_texto = dados.get("observacoes", "")
-    fp  = dados.get("forma_pagamento", "")
-    gar = dados.get("garantia", "")
+    obs_texto = dados.get("observacoes", "") or "Orçamento referente à mão de obra e materiais inclusos."
+    fp  = dados.get("forma_pagamento", "") or "Cartão de crédito, cartão de débito ou Pix."
+    gar = dados.get("garantia", "") or "3 meses."
 
     obs_completo = obs_texto
     if fp:
