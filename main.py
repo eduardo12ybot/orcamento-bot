@@ -193,18 +193,23 @@ async def enviar_pdf_whatsapp(pdf_b64: str, dados: dict, num_orc: str):
     )
     nome_arquivo = f"orcamento_{num_orc.replace('/', '-')}_{cliente.replace(' ', '_')}.pdf"
 
+    payload = {
+        "number":    SEU_NUMERO,
+        "mediatype": "document",
+        "mimetype":  "application/pdf",
+        "caption":   caption,
+        "media":     pdf_b64,
+        "fileName":  nome_arquivo,
+    }
+    print(f"📤 Enviando para número: {SEU_NUMERO}")
+    print(f"📤 Tamanho base64: {len(pdf_b64)} chars")
+    print(f"📤 Primeiros 50 chars do base64: {pdf_b64[:50]}")
+
     async with httpx.AsyncClient() as client:
         resp = await client.post(
             f"{EVOLUTION_URL}/message/sendMedia/{INSTANCIA}",
             headers={"apikey": EVOLUTION_KEY, "Content-Type": "application/json"},
-            json={
-                "number":    SEU_NUMERO,
-                "mediatype": "document",
-                "mimetype":  "application/pdf",
-                "caption":   caption,
-                "media":     f"data:application/pdf;base64,{pdf_b64}",
-                "fileName":  nome_arquivo,
-            },
+            json=payload,
             timeout=60,
         )
         if not resp.is_success:
