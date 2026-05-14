@@ -67,7 +67,10 @@ async def webhook(req: Request):
     if key.get("fromMe"):
         return {"status": "mensagem própria ignorada"}
 
-    if NUMERO_AMIGO not in sender:
+    # WhatsApp pode omitir o 9º dígito — checa as duas formas
+    numero_curto = NUMERO_AMIGO[:4] + NUMERO_AMIGO[5:]  # remove o 9 da posição 4
+    if NUMERO_AMIGO not in sender and numero_curto not in sender:
+        print(f"BLOQUEADO sender={sender}")
         return {"status": "número não autorizado"}
 
     print(f"✅ Mensagem recebida de {sender}")
