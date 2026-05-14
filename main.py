@@ -49,7 +49,14 @@ async def webhook(req: Request):
     except Exception:
         raise HTTPException(status_code=400, detail="JSON inválido")
 
+    # DEBUG
+    print(f"DEBUG EVENT: {data.get('event')}")
+    sender_debug = data.get("data", {}).get("key", {}).get("remoteJid", "N/A")
+    print(f"DEBUG SENDER: {sender_debug}")
+    print(f"DEBUG NUMERO_AMIGO: {NUMERO_AMIGO}")
+
     if data.get("event") != "messages.upsert":
+        print(f"IGNORADO evento: {data.get('event')}")
         return {"status": "ignorado"}
 
     msg_data = data.get("data", {})
