@@ -161,8 +161,10 @@ Formato:
   "garantia": "prazo de garantia mencionado ou vazio"
 }}
 
-Se o valor for fixo por quantidade variável, use valor_unit como preço unitário e valor_total como fórmula.
-Se for valor fixo total, coloque o valor em valor_total e repita em valor_unit.
+Regras para valor_total:
+- Se a quantidade for definida (ex: "3 tomadas", "2 pontos"): calcule e coloque o total em reais (ex: "R$ 240,00")
+- Se a quantidade for indefinida (ex: "quantidade a definir", "conforme o cliente"): use fórmula (ex: "Qtd × R$ 140,00")
+- Se for valor fixo único: coloque o valor total diretamente (ex: "R$ 500,00")
 
 Texto:
 {texto}"""
