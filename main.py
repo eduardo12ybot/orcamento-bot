@@ -92,6 +92,13 @@ async def webhook(req: Request):
     if not texto:
         return {"status": "sem texto para processar"}
 
+    # Ignora mensagens que claramente não são orçamentos
+    IGNORAR = ["00020101", "pix", "br.gov.bcb", "obrigado", "ok", "👍", "valeu", "oi", "olá"]
+    texto_lower = texto.lower()
+    if len(texto) < 15 or any(p in texto_lower for p in IGNORAR):
+        print(f"⚠️ Mensagem ignorada (não parece orçamento): {texto[:60]}")
+        return {"status": "mensagem ignorada"}
+
     print(f"📝 Texto: {texto[:120]}...")
 
     dados      = await extrair_dados_orcamento(texto)
