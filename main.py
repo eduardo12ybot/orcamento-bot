@@ -202,12 +202,14 @@ async def enviar_pdf_whatsapp(pdf_b64: str, dados: dict, num_orc: str):
                 "mediatype": "document",
                 "mimetype":  "application/pdf",
                 "caption":   caption,
-                "media":     pdf_b64,
+                "media":     f"data:application/pdf;base64,{pdf_b64}",
                 "fileName":  nome_arquivo,
             },
-            timeout=30,
+            timeout=60,
         )
-        resp.raise_for_status()
+        if not resp.is_success:
+            print(f"❌ Erro ao enviar PDF: {resp.status_code} — {resp.text}")
+            resp.raise_for_status()
     print(f"📤 PDF '{nome_arquivo}' enviado para {SEU_NUMERO}")
 
 
